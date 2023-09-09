@@ -9,8 +9,7 @@ int main(void)
 {
 	char *command = NULL;
 	size_t bufsize = 0;
-	int i;
-	char **tokens;
+	/*char **tokens;*/
 
 	while (1)
 	{

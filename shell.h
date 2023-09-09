@@ -10,6 +10,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#define BUFF_SIZE 1024
+
 /* Structures */
 
 
@@ -18,5 +20,6 @@ unsigned int _strlen(char *);
 void _puts(char *);
 char * _strn(char *);
 void display_prompt(void);
+void run_cmd(char **args);
 
 #endif
