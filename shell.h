@@ -10,6 +10,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#define BUFF_SIZE 1024
+
 /* Structures */
 
 
@@ -22,6 +24,5 @@ void execute_command(char **, char *);
 char *_strdup(const char *str);
 char *_strcpy(char *, char *);
 char **parse_input(const char *input, char *);
-
 
 #endif
