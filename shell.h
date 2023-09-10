@@ -14,9 +14,14 @@
 
 
 /* Prototypes*/
-unsigned int _strlen(char *);
+unsigned int _strlen(const char *);
 void _puts(char *);
 char * _strn(char *);
 void display_prompt(void);
+void execute_command(char **, char *);
+char *_strdup(const char *str);
+char *_strcpy(char *, char *);
+char **parse_input(const char *input, char *);
+
 
 #endif

@@ -2,15 +2,17 @@
 
 /**
  * main - Entry Point
+ * @argc: argument count
+ * @argv: argument vector
  *
  * Return: 0 (Sucess)
  */
-int main(void)
+int main(int argc, char *argv[])
 {
-	char *command = NULL;
+	char *input = NULL;
 	size_t bufsize = 0;
-	int i;
-	char **tokens;
+	char **commands;
+	(void)argc;
 
 	while (1)
 	{
@@ -18,14 +20,16 @@ int main(void)
 		/* Read User Input*/
 		fflush(stdout);
 
-		if (getline(&command, &bufsize, stdin) == -1)
+		if (getline(&input, &bufsize, stdin) == -1)
 		{
 			_puts("\n");
-			free(command);
+			free(input);
 			break;
 		}
 
-		command = _strn(command);
+		input = _strn(input);
+		commands = parse_input(input, " ");
+		execute_command(commands, argv[0]);
 
 
 	}
