@@ -19,7 +19,7 @@
 /* Prototypes*/
 unsigned int _strlen(const char *);
 void _puts(char *);
-char * _strn(char *);
+char *_strn(char *);
 void display_prompt(void);
 void execute_command(char **, char *);
 char *_strdup(const char *str);
@@ -29,4 +29,7 @@ char *find_command(char *, char *);
 char *str_concat(char *s1, char *s2);
 char *_getenv(const char *path);
 int _strncmp(const char *s1, const char *s2, size_t n);
+
+extern char **environ;
+
 #endif

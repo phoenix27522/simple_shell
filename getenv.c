@@ -1,8 +1,7 @@
 #include "shell.h"
-extern char **environ;
 /**
  * _getenv - gets the value of an environ variable
- * @name: env var name
+ * @path: envar name
  *
  * Return: the value
  */
