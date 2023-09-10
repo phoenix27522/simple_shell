@@ -18,7 +18,7 @@ void display_prompt(void)
 void execute_command(char **commands, char *name)
 {
 	pid_t pid;
-	char *path = getenv("PATH");
+	char *path = _getenv("PATH");
 	char *command = find_command(path, commands[0]);
 
 	if (path == NULL || command == NULL)

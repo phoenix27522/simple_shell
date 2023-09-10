@@ -27,5 +27,6 @@ char *_strcpy(char *, char *);
 char **parse_input(const char *input, char *);
 char *find_command(char *, char *);
 char *str_concat(char *s1, char *s2);
-
+char *_getenv(const char *path);
+int _strncmp(const char *s1, const char *s2, size_t n);
 #endif
