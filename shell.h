@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #define BUFF_SIZE 1024
 
@@ -24,5 +25,7 @@ void execute_command(char **, char *);
 char *_strdup(const char *str);
 char *_strcpy(char *, char *);
 char **parse_input(const char *input, char *);
+char *find_command(char *, char *);
+char *str_concat(char *s1, char *s2);
 
 #endif

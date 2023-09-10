@@ -6,7 +6,7 @@
  */
 void display_prompt(void)
 {
-	_puts("simple_shell$ ");
+	_puts(":) ");
 }
 /**
  * execute_command - executes a command
@@ -17,7 +17,16 @@ void display_prompt(void)
  */
 void execute_command(char **commands, char *name)
 {
-	pid_t pid = fork();
+	pid_t pid;
+	char *path = getenv("PATH");
+	char *command = find_command(path, commands[0]);
+
+	if (path == NULL || command == NULL)
+	{
+		perror(name);
+		return;
+	}
+	pid = fork();
 
 	if (pid < 0)
 	{
@@ -29,7 +38,7 @@ void execute_command(char **commands, char *name)
 	{
 		char *envp[] = {NULL};
 
-		if (execve(commands[0], commands, envp) == -1)
+		if (execve(command, commands, envp) == -1)
 		{
 			free(commands);
 			perror(name);
@@ -92,4 +101,41 @@ char **parse_input(const char *input, char *delim)
 	free(input_cpy);
 
 	return (tokens);
+}
+
+/**
+ * find_command - searches for the command in PATH
+ * @path: PATH
+ * @command: input
+ * Return: path is found, NULL otherwise
+ */
+char *find_command(char *path, char *command)
+{
+	char *path_copy = _strdup(path);
+	char **paths = parse_input(path_copy, ":");
+	unsigned int i = 0;
+
+	while (paths[i] != NULL)
+	{
+		char *path1 = str_concat(paths[i], "/");
+		char *full_path = str_concat(path1, command);
+
+		if (access(command, X_OK) == 0)
+		{
+			free(path_copy);
+			free(path1);
+			return (command);
+		}
+		else if (access(full_path, X_OK) == 0)
+		{
+			free(path1);
+			free(path_copy);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	free(path_copy);
+	free(paths);
+	return (NULL);
 }
