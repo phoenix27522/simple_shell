@@ -22,7 +22,7 @@ void run_cmd(char **args)
 	else if (pid == 0)
 	{
 		/*child*/
-		path = (char *)malloc(sizeof(char) * BUFF_SIZE);
+		path = ;
 		if(path == NULL)
 		{
 			perror("malloc");
@@ -30,7 +30,7 @@ void run_cmd(char **args)
 		}
 		/* to be replaced by our owen */
 
-		strcpy(path, "/bin/");
+		strcpy(path, "/usr/bin/");
 		strcat(path, args[0]);
 
 		execve(path, args, NULL);
@@ -42,5 +42,59 @@ void run_cmd(char **args)
 	else
 	{
 		waitpid(pid, &status, 0);
+	}
+}
+char search_cmd(char *args, char *cmd, char *path)
+{
+	int i = 0;
+	int position = 0;
+	char *newpath;
+
+	if (!path)/* Return NULL if 'path' is not provided*/
+		return (NULL);
+	if (_strstr(cmd, "./"))/* Return NULL if 'path' is not provided*/
+	{
+		if (is_cmd(cmd))/*Check if 'cmd' is a valid command*/
+			return (cmd);
+	}
+	while (1)
+	{
+		if (!path[i] || path[i] == ':')/*Check for end of 'path' or a ':' character*/
+		{
+			path = _strdup(path, position, i);/*duplicate 'path' into 'newpath'*/
+			if (!*newpath)
+				_strcat(newpath, cmd);/*Copy 'cmd' into 'newpath'*/
+			else
+			{
+				_strcat(newpath, "/");
+				_strcat(newpath, cmd);
+			}
+			if (is_cmd(args, newpath))/*Check if 'newpath' is a valid command*/
+				return (newpath);
+			       	(path[i])
+				break;
+			position= i;/*Update the 'position' variable*/
+		}
+		i++;/*Increment 'i' to iterate through 'path'*/
+	}
+	return (NULL);
+}
+/**
+ * is_cmd - determines if a file is an executable command
+ * @path: path to the file
+ *
+ * Return: succes 0 otherwise -1;
+ */
+int is_cmd(char *path)
+{
+	struct stat new;
+
+	if (stat(full_path, &new) != -1)
+	{
+		if (S_ISDIR(new.st_mode) ||  access(full_path, X_OK))
+		{
+			return (-1);
+		}
+		return (0);
 	}
 }
