@@ -22,9 +22,9 @@ void execute_command(char **commands, char *name)
 	path = _getenv("PATH");
 
 	get = execute_builtin(commands);
-	if (get == -1)
-		command = find_command(path, commands[0]);
-
+	if (get == 0)
+		return;
+	command = find_command(path, commands[0]);
 	if (path == NULL || command == NULL)
 	{
 		perror(name);
