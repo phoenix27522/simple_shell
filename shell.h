@@ -14,7 +14,11 @@
 #define BUFF_SIZE 1024
 
 /* Structures */
-
+typedef struct builtin
+{
+        char *built;
+        int (*func)(char *argv);
+} built;
 
 /* Prototypes*/
 unsigned int _strlen(const char *);
@@ -29,6 +33,11 @@ char *find_command(char *, char *);
 char *str_concat(char *s1, char *s2);
 char *_getenv(const char *path);
 int _strncmp(const char *s1, const char *s2, size_t n);
+
+/*builtins*/
+int execute_builtin(char *argv);
+int shell_exit(char *argv);
+
 
 extern char **environ;
 
