@@ -25,3 +25,26 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 
 	return (*s1 - *s2);
 }
+
+/**
+ * mem_free - frees memories
+ * @n: number of variables
+ * 
+ */
+void mem_free(const unsigned int n, ...)
+{
+	va_list args;
+	void *ptr;
+	int i;
+
+	if (n == 0)
+		return;
+
+	va_start(args, n);
+	for (i = 0; i <n; i++)
+	{
+		ptr = va_arg(args, void *);
+		free(ptr);
+	}
+	va_end(args);
+}

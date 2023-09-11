@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 
 #define BUFF_SIZE 1024
 
@@ -45,7 +46,7 @@ char *_strcpy(char *, char *);
 char *str_concat(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 unsigned int _strlen(const char *);
-
+void mem_free(unsigned int, ...);
 
 extern char **environ;
 

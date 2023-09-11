@@ -66,9 +66,15 @@ void execute_command(char **commands, char *name)
  */
 char **parse_input(const char *input, char *delim)
 {
-	char **tokens;
+	char **tokens = NULL;
 	char *token, *input_cpy = _strdup(input);
 	unsigned int i, count = 0;
+
+	if (*input == '\0')
+	{
+		free(input_cpy);
+		return (NULL);
+	}
 
 	if (input_cpy == NULL)
 	{
@@ -124,20 +130,17 @@ char *find_command(char *path, char *command)
 
 		if (access(command, X_OK) == 0)
 		{
-			free(path_copy);
-			free(path1);
+			mem_free(2, path_copy, path1);
 			return (command);
 		}
 		else if (access(full_path, X_OK) == 0)
 		{
-			free(path1);
-			free(path_copy);
+			mem_free(2, path_copy, path1);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	free(path_copy);
-	free(paths);
+	mem_free(2, path_copy, paths);
 	return (NULL);
 }
