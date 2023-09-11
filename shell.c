@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * display_prompt - displays a prompt
  *
@@ -13,17 +12,16 @@ void display_prompt(void)
  * @commands: pointer to arrays of strings
  * of a command and its arguments and options
  * @name: name of the program
- *
  */
 void execute_command(char **commands, char *name)
 {
 	pid_t pid;
 	char *path, *command;
-	int get = 0;
+	int status, get = 0;
 
 	path = _getenv("PATH");
 
-	get = execute_builtin(commands[0]);
+	get = execute_builtin(commands);
 	if (get == -1)
 		command = find_command(path, commands[0]);
 
@@ -55,8 +53,6 @@ void execute_command(char **commands, char *name)
 	}
 	else
 	{
-		int status;
-
 		waitpid(pid, &status, 0);
 	}
 }

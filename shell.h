@@ -13,30 +13,38 @@
 
 #define BUFF_SIZE 1024
 
+
 /* Structures */
+/**
+ * struct builtin - struct for the builtins
+ * @built: the name of the builtin
+ * @func: the associated function to be called for each builtin
+ */
 typedef struct builtin
 {
-        char *built;
-        int (*func)(char *argv);
+	char *built;
+	int (*func)(char **argv);
 } built;
 
 /* Prototypes*/
 unsigned int _strlen(const char *);
-void _puts(char *);
-char *_strn(char *);
 void display_prompt(void);
 void execute_command(char **, char *);
-char *_strdup(const char *str);
-char *_strcpy(char *, char *);
 char **parse_input(const char *input, char *);
 char *find_command(char *, char *);
-char *str_concat(char *s1, char *s2);
 char *_getenv(const char *path);
-int _strncmp(const char *s1, const char *s2, size_t n);
+int execute_builtin(char **argv);
+int shell_exit(char **argv);
+int shell_env(char **argv);
 
-/*builtins*/
-int execute_builtin(char *argv);
-int shell_exit(char *argv);
+/* utils */
+void _puts(char *);
+char *_strn(char *);
+char *_strdup(const char *str);
+char *_strcpy(char *, char *);
+char *str_concat(char *s1, char *s2);
+int _strncmp(const char *s1, const char *s2, size_t n);
+unsigned int _strlen(const char *);
 
 
 extern char **environ;
