@@ -17,7 +17,7 @@ int execute_builtin(char **argv)
 
 	for (i = 0; list[i].built != NULL; i++)
 	{
-		if (_strncmp(list[i].built, argv[0], _strlen(list[i].built)) == 0)
+		if (_strcmp(list[i].built, argv[0]) == 0)
 			return (list[i].func(argv));
 	}
 	return (-1);
