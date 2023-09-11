@@ -1,11 +1,11 @@
 #include "shell.h"
 /**
  *  execute_builtin - search for match and execute the associate func
- * @argv: accepts agruments
+ * @commands: accepts agruments
  * Return: Returns the return of the function executed is there is a match,
  * otherwise returns -1.
  **/
-int execute_builtin(char **argv)
+int execute_builtin(char **commands)
 {
 	int i;
 	built list[] = {
@@ -17,8 +17,8 @@ int execute_builtin(char **argv)
 
 	for (i = 0; list[i].built != NULL; i++)
 	{
-		if (_strcmp(list[i].built, argv[0]) == 0)
-			return (list[i].func(argv));
+		if (_strcmp(list[i].built, commands[0]) == 0)
+			return (list[i].func(commands));
 	}
 	return (-1);
 }

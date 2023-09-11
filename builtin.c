@@ -5,10 +5,9 @@
  *
  * Return: nothing it will not reach it will exit
  */
-int shell_exit(char **argv)
+int shell_exit(char **commands)
 {
-	(void)argv;
-
+	free_commands(commands);
 	exit(0);
 }
 /**
@@ -18,18 +17,18 @@ int shell_exit(char **argv)
  * Return: int
  *
  */
-int shell_env(char **argv)
+int shell_env(char **commands)
 {
 	int i = 0;
 	char **env = environ;
 
-	 (void)argv;
 
 	while (env[i])
 	{
-		write(STDOUT_FILENO, env[i], _strlen(env[i]));
-		write(STDOUT_FILENO, "\n", 1);
+		_puts(env[i]);
+		_puts("\n");
 		i++;
 	}
+	free_commands(commands);
 	return (0);
 }

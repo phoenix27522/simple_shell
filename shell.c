@@ -23,32 +23,35 @@ void execute_command(char **commands, char *name)
 
 	get = execute_builtin(commands);
 	if (get == 0)
+	{
+		free_commands(commands);
 		return;
+	}
 	command = find_command(path, commands[0]);
 	if (path == NULL || command == NULL)
 	{
+		free_commands(commands);
 		perror(name);
 		return;
 	}
 	pid = fork();
-
 	if (pid < 0)
 	{
+		free_commands(commands);
 		perror(name);
 		exit(EXIT_FAILURE);
 	}
-
 	if (pid == 0)
 	{
 		char *envp[] = {NULL};
 
 		if (execve(command, commands, envp) == -1)
 		{
-			free(commands);
+			free_commands(commands);
 			perror(name);
 			exit(EXIT_FAILURE);
 		}
-		free(commands);
+		free_commands(commands);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -68,7 +71,7 @@ char **parse_input(const char *input, char *delim)
 {
 	char **tokens = NULL;
 	char *token, *input_cpy = _strdup(input);
-	unsigned int i, count = 0;
+	unsigned int i, j, count = 0;
 
 	if (*input == '\0')
 	{
@@ -87,7 +90,7 @@ char **parse_input(const char *input, char *delim)
 		count++;
 		token = strtok(NULL, delim);
 	}
-	tokens = malloc(sizeof(char *) * count + 1);
+	tokens = malloc(sizeof(char *) * (count + 1));
 	if (tokens == NULL)
 	{
 		free(input_cpy);
@@ -100,6 +103,7 @@ char **parse_input(const char *input, char *delim)
 		tokens[i] = _strdup(token);
 		if (tokens[i] == NULL)
 		{
+			free_commands(tokens);
 			free(input_cpy);
 			exit(EXIT_FAILURE);
 		}

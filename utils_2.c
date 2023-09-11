@@ -70,3 +70,21 @@ void mem_free(const unsigned int n, ...)
 	}
 	va_end(args);
 }
+
+/**
+ * free_command - Free the commands array
+ * @commands: pointer to array of strings
+ *
+ */
+void free_commands(char **commands)
+{
+	unsigned int i = 0;
+
+	if (!commands || commands == NULL)
+		return;
+
+	for (i = 0; commands[i] != NULL; i++)
+		free(commands[i]);
+	free(commands[i]);
+	free(commands);
+}

@@ -24,7 +24,7 @@
 typedef struct builtin
 {
 	char *built;
-	int (*func)(char **argv);
+	int (*func)(char **);
 } built;
 
 /* Prototypes*/
@@ -34,9 +34,9 @@ void execute_command(char **, char *);
 char **parse_input(const char *input, char *);
 char *find_command(char *, char *);
 char *_getenv(const char *path);
-int execute_builtin(char **argv);
-int shell_exit(char **argv);
-int shell_env(char **argv);
+int execute_builtin(char **);
+int shell_exit(char **);
+int shell_env(char **);
 
 /* utils */
 void _puts(char *);
@@ -49,5 +49,6 @@ unsigned int _strlen(const char *);
 void mem_free(unsigned int, ...);
 int _strcmp(const char *, const char *);
 extern char **environ;
+void free_commands(char **);
 
 #endif

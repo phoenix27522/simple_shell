@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
 
 		input = _strn(input);
 		commands = parse_input(input, " ");
+		if (_strcmp(input, "exit") == 0)
+			free(input);
 		if (commands == NULL)
 			continue;
 		execute_command(commands, argv[0]);
