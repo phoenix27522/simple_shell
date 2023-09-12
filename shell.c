@@ -35,6 +35,7 @@ void execute_command(char **commands, char *name)
 	pid = fork();
 	if (pid < 0)
 	{
+		free(command);
 		perror(name);
 		exit(EXIT_FAILURE);
 	}
@@ -47,10 +48,14 @@ void execute_command(char **commands, char *name)
 			perror(name);
 			exit(EXIT_FAILURE);
 		}
+		free(command);
 		exit(EXIT_SUCCESS);
 	}
 	else
+	{
 		waitpid(pid, &status, 0);
+		free(command);
+	}
 }
 
 /**
@@ -105,7 +110,7 @@ char **parse_input(const char *input, char *delim)
  */
 char *find_command(char *path, char *command)
 {
-	char *path_copy = _strdup(path);
+	char *path_copy;
 	char **paths;
 	unsigned int i = 0;
 
@@ -126,8 +131,10 @@ char *find_command(char *path, char *command)
 			free_commands(paths);
 			return (full_path);
 		}
+		free(path1);
 		free(full_path);
 		full_path = NULL;
+		path1 = NULL;
 		i++;
 	}
 	free_commands(paths);
