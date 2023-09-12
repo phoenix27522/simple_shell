@@ -3,7 +3,7 @@
  * _strtok - Tokenizes a string using specified delimiters
  * @line: Pointer to the input string
  * @delim: String containing delimiter characters
- * 
+ *
  * Return: A pointer to the next token or NULL if no more tokens are found
  */
 char *_strtok(char *line, char *delim)
