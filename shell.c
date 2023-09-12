@@ -6,7 +6,8 @@
  */
 void display_prompt(void)
 {
-	_puts(":) ");
+	_puts("$ ");
+	fflush();
 }
 /**
  * execute_command - executes a command
