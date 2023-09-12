@@ -73,17 +73,8 @@ char **parse_input(const char *input, char *delim)
 	char *token, *input_cpy = _strdup(input);
 	unsigned int i, j, count = 0;
 
-	if (*input == '\0')
-	{
-		free(input_cpy);
-		return (NULL);
-	}
-
 	if (input_cpy == NULL)
-	{
-		free(input_cpy);
 		exit(EXIT_FAILURE);
-	}
 	token = strtok(input_cpy, delim);
 	while (token != NULL)
 	{
