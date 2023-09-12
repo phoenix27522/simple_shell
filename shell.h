@@ -37,6 +37,7 @@ char *_getenv(const char *path);
 int execute_builtin(char **);
 int shell_exit(char **);
 int shell_env(char **);
+char *_strtok(char *line, char *delim);
 
 /* utils */
 void _puts(char *);
@@ -50,5 +51,6 @@ void mem_free(unsigned int, ...);
 int _strcmp(const char *, const char *);
 extern char **environ;
 void free_commands(char **);
+char *_strchr(char *s, char c);
 
 #endif
