@@ -21,6 +21,7 @@ int shell_env(char **commands)
 {
 	int i = 0;
 	char **env = environ;
+	(void)commands;
 
 
 	while (env[i])
@@ -29,6 +30,5 @@ int shell_env(char **commands)
 		_puts("\n");
 		i++;
 	}
-	free_commands(commands);
 	return (0);
 }

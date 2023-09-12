@@ -29,14 +29,12 @@ void execute_command(char **commands, char *name)
 	command = find_command(path, commands[0]);
 	if (path == NULL || command == NULL)
 	{
-		free_commands(commands);
 		perror(name);
 		return;
 	}
 	pid = fork();
 	if (pid < 0)
 	{
-		free_commands(commands);
 		perror(name);
 		exit(EXIT_FAILURE);
 	}
@@ -46,11 +44,9 @@ void execute_command(char **commands, char *name)
 
 		if (execve(command, commands, envp) == -1)
 		{
-			free_commands(commands);
 			perror(name);
 			exit(EXIT_FAILURE);
 		}
-		free_commands(commands);
 		exit(EXIT_SUCCESS);
 	}
 	else

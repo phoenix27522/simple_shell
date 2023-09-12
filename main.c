@@ -34,7 +34,11 @@ int main(int argc, char *argv[])
 			free(input);
 			input = NULL;
 			if (commands != NULL)
+			{
 				execute_command(commands, argv[0]);
+				free_commands(commands);
+			}
+			commands = NULL;
 			continue;
 		}
 
