@@ -27,14 +27,15 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		input[_strlen(input) - 1] = '\0';
-		if (*input != '\0')
-		{
-			commands = parse_input(input, " ");
-			if (commands != NULL)
-				execute_command(commands, argv[0]);
-		}
-		input = NULL;
+		input = _strn(input);
+		commands = parse_input(input, " ");
+		if (_strcmp(input, "exit") == 0)
+			free(input);
+		if (commands == NULL)
+			continue;
+		execute_command(commands, argv[0]);
+
+
 	}
 
 	return (EXIT_SUCCESS);

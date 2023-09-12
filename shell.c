@@ -23,7 +23,10 @@ void execute_command(char **commands, char *name)
 
 	get = execute_builtin(commands);
 	if (get == 0)
+	{
+		free_commands(commands);
 		return;
+	}
 	command = find_command(path, commands[0]);
 	if (path == NULL || command == NULL)
 	{
@@ -64,15 +67,21 @@ void execute_command(char **commands, char *name)
  *
  * Return: pointer to array of strings
  */
-char **parse_input(char *input, char *delim)
+char **parse_input(const char *input, char *delim)
 {
 	char **tokens = NULL;
 	char *token, *input_cpy = _strdup(input);
 	unsigned int i, j, count = 0;
 
+	if (*input == '\0')
+	{
+		free(input_cpy);
+		return (NULL);
+	}
+
 	if (input_cpy == NULL)
 	{
-		mem_free(2, input, input_cpy);
+		free(input_cpy);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(input_cpy, delim);
@@ -84,7 +93,7 @@ char **parse_input(char *input, char *delim)
 	tokens = malloc(sizeof(char *) * (count + 1));
 	if (tokens == NULL)
 	{
-		mem_free(2, input, input_cpy);
+		free(input_cpy);
 		exit(EXIT_FAILURE);
 	}
 	input_cpy = _strdup(input);
@@ -95,13 +104,13 @@ char **parse_input(char *input, char *delim)
 		if (tokens[i] == NULL)
 		{
 			free_commands(tokens);
-			mem_free(2, input, input_cpy);
+			free(input_cpy);
 			exit(EXIT_FAILURE);
 		}
 		token = strtok(NULL, delim);
 	}
 	tokens[i] = NULL;
-	mem_free(2, input, input_cpy);
+	free(input_cpy);
 
 	return (tokens);
 }
