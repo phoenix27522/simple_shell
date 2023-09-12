@@ -85,6 +85,5 @@ void free_commands(char **commands)
 
 	for (i = 0; commands[i] != NULL; i++)
 		free(commands[i]);
-	free(commands[i]);
 	free(commands);
 }
