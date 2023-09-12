@@ -31,7 +31,7 @@ typedef struct builtin
 unsigned int _strlen(const char *);
 void display_prompt(void);
 void execute_command(char **, char *);
-char **parse_input(const char *input, char *);
+char **parse_input(char *, char *);
 char *find_command(char *, char *);
 char *_getenv(const char *path);
 int execute_builtin(char **);

@@ -66,7 +66,7 @@ void mem_free(const unsigned int n, ...)
 	for (i = 0; i <n; i++)
 	{
 		ptr = va_arg(args, void *);
-		free(ptr);
+			free(ptr);
 	}
 	va_end(args);
 }
@@ -85,6 +85,5 @@ void free_commands(char **commands)
 
 	for (i = 0; commands[i] != NULL; i++)
 		free(commands[i]);
-	free(commands[i]);
 	free(commands);
 }
