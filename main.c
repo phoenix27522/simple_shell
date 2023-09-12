@@ -27,9 +27,17 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		input = _strn(input);
-		commands = parse_input(input, " ");
-		execute_command(commands, argv[0]);
+		input[_strlen(input) - 1] = '\0';
+		
+		if (*input != '\0')
+		{
+			commands = parse_input(input, " ");
+			if (commands != NULL)
+				execute_command(commands, argv[0]);
+		}
+
+		free(input);
+		input = NULL;
 
 
 	}

@@ -5,9 +5,30 @@
  *
  * Return: nothing it will not reach it will exit
  */
-int shell_exit(char *argv)
+int shell_exit(char **commands)
 {
-	(void)argv;
-
+	free_commands(commands);
 	exit(0);
+}
+/**
+ * shell_env - print current enviroment
+ * @argv: accepts arguments
+ *
+ * Return: int
+ *
+ */
+int shell_env(char **commands)
+{
+	int i = 0;
+	char **env = environ;
+
+
+	while (env[i])
+	{
+		_puts(env[i]);
+		_puts("\n");
+		i++;
+	}
+	free_commands(commands);
+	return (0);
 }

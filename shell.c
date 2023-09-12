@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * display_prompt - displays a prompt
  *
@@ -14,50 +13,50 @@ void display_prompt(void)
  * @commands: pointer to arrays of strings
  * of a command and its arguments and options
  * @name: name of the program
- *
  */
 void execute_command(char **commands, char *name)
 {
 	pid_t pid;
 	char *path, *command;
-	int get = 0;
+	int status, get = 0;
 
 	path = _getenv("PATH");
 
-	get = execute_builtin(commands[0]);
-	if (get == -1)
-		command = find_command(path, commands[0]);
-
+	get = execute_builtin(commands);
+	if (get == 0)
+	{
+		free_commands(commands);
+		return;
+	}
+	command = find_command(path, commands[0]);
 	if (path == NULL || command == NULL)
 	{
+		free_commands(commands);
 		perror(name);
 		return;
 	}
 	pid = fork();
-
 	if (pid < 0)
 	{
+		free_commands(commands);
 		perror(name);
 		exit(EXIT_FAILURE);
 	}
-
 	if (pid == 0)
 	{
 		char *envp[] = {NULL};
 
 		if (execve(command, commands, envp) == -1)
 		{
-			free(commands);
+			free_commands(commands);
 			perror(name);
 			exit(EXIT_FAILURE);
 		}
-		free(commands);
+		free_commands(commands);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		int status;
-
 		waitpid(pid, &status, 0);
 	}
 }
@@ -71,22 +70,19 @@ void execute_command(char **commands, char *name)
  */
 char **parse_input(const char *input, char *delim)
 {
-	char **tokens;
+	char **tokens = NULL;
 	char *token, *input_cpy = _strdup(input);
-	unsigned int i, count = 0;
+	unsigned int i, j, count = 0;
 
 	if (input_cpy == NULL)
-	{
-		free(input_cpy);
 		exit(EXIT_FAILURE);
-	}
 	token = strtok(input_cpy, delim);
 	while (token != NULL)
 	{
 		count++;
 		token = strtok(NULL, delim);
 	}
-	tokens = malloc(sizeof(char *) * count + 1);
+	tokens = malloc(sizeof(char *) * (count + 1));
 	if (tokens == NULL)
 	{
 		free(input_cpy);
@@ -99,6 +95,7 @@ char **parse_input(const char *input, char *delim)
 		tokens[i] = _strdup(token);
 		if (tokens[i] == NULL)
 		{
+			free_commands(tokens);
 			free(input_cpy);
 			exit(EXIT_FAILURE);
 		}
@@ -129,20 +126,17 @@ char *find_command(char *path, char *command)
 
 		if (access(command, X_OK) == 0)
 		{
-			free(path_copy);
-			free(path1);
+			mem_free(2, path_copy, path1);
 			return (command);
 		}
 		else if (access(full_path, X_OK) == 0)
 		{
-			free(path1);
-			free(path_copy);
+			mem_free(2, path_copy, path1);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	free(path_copy);
-	free(paths);
+	mem_free(2, path_copy, paths);
 	return (NULL);
 }
