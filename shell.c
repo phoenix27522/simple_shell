@@ -6,7 +6,7 @@
 void display_prompt(void)
 {
 	_puts("$ ");
-	fflush();
+	fflush(stdout);
 }
 /**
  * execute_command - executes a command
@@ -23,11 +23,9 @@ void execute_command(char **commands, char *name)
 	path = _getenv("PATH");
 
 	get = execute_builtin(commands);
+
 	if (get == 0)
-	{
-		free_commands(commands);
 		return;
-	}
 	command = find_command(path, commands[0]);
 	if (path == NULL || command == NULL)
 	{
@@ -56,9 +54,7 @@ void execute_command(char **commands, char *name)
 		exit(EXIT_SUCCESS);
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 }
 
 /**
@@ -83,11 +79,9 @@ char **parse_input(const char *input, char *delim)
 		token = strtok(NULL, delim);
 	}
 	tokens = malloc(sizeof(char *) * (count + 1));
+	free(input_cpy);
 	if (tokens == NULL)
-	{
-		free(input_cpy);
 		exit(EXIT_FAILURE);
-	}
 	input_cpy = _strdup(input);
 	token = strtok(input_cpy, delim);
 	for (i = 0; i < count; i++)
@@ -95,14 +89,14 @@ char **parse_input(const char *input, char *delim)
 		tokens[i] = _strdup(token);
 		if (tokens[i] == NULL)
 		{
-			free_commands(tokens);
 			free(input_cpy);
+			free_commands(tokens);
 			exit(EXIT_FAILURE);
 		}
 		token = strtok(NULL, delim);
 	}
-	tokens[i] = NULL;
 	free(input_cpy);
+	tokens[i] = NULL;
 
 	return (tokens);
 }
@@ -116,27 +110,30 @@ char **parse_input(const char *input, char *delim)
 char *find_command(char *path, char *command)
 {
 	char *path_copy = _strdup(path);
-	char **paths = parse_input(path_copy, ":");
+	char **paths;
 	unsigned int i = 0;
 
+	/* if full_path to cmd is given*/
+	if (access(command, X_OK) == 0)
+		return (command);
+	path_copy = _strdup(path);
+	paths = parse_input(path_copy, ":");
+	free(path_copy);
 	while (paths[i] != NULL)
 	{
 		char *path1 = str_concat(paths[i], "/");
 		char *full_path = str_concat(path1, command);
 
-		if (access(command, X_OK) == 0)
+		if (access(full_path, X_OK) == 0)
 		{
-			mem_free(2, path_copy, path1);
-			return (command);
-		}
-		else if (access(full_path, X_OK) == 0)
-		{
-			mem_free(2, path_copy, path1);
+			free(path1);
+			free_commands(paths);
 			return (full_path);
 		}
 		free(full_path);
+		full_path = NULL;
 		i++;
 	}
-	mem_free(2, path_copy, paths);
+	free_commands(paths);
 	return (NULL);
 }

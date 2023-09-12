@@ -51,7 +51,7 @@ int _strcmp(const char *s1, const char *s2)
 /**
  * mem_free - frees memories
  * @n: number of variables
- * 
+ *
  */
 void mem_free(const unsigned int n, ...)
 {

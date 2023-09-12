@@ -8,9 +8,10 @@
  */
 unsigned int _strlen(const char *str)
 {
-	if (*str == 0)
-		return (0);
-	return (1 + _strlen(str + 1));
+	unsigned int i = 0;
+	for (i= 0; str[i] != '\0'; i++)
+		;
+	return (i);
 }
 
 /**

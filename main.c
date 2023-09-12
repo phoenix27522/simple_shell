@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
 	{
 		display_prompt();
 		/* Read User Input*/
-		fflush(stdout);
 
 		if (getline(&input, &bufsize, stdin) == -1)
 		{
@@ -28,18 +27,19 @@ int main(int argc, char *argv[])
 		}
 
 		input[_strlen(input) - 1] = '\0';
-		
-		if (*input != '\0')
+
+		if (input[0] != '\0')
 		{
 			commands = parse_input(input, " ");
+			free(input);
+			input = NULL;
 			if (commands != NULL)
 				execute_command(commands, argv[0]);
+			continue;
 		}
 
 		free(input);
 		input = NULL;
-
-
 	}
 
 	return (EXIT_SUCCESS);
