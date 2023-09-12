@@ -9,7 +9,8 @@
 unsigned int _strlen(const char *str)
 {
 	unsigned int i = 0;
-	for (i= 0; str[i] != '\0'; i++)
+
+	for (i = 0; str[i] != '\0'; i++)
 		;
 	return (i);
 }
