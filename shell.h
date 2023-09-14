@@ -37,19 +37,31 @@ char *_getenv(const char *path);
 int execute_builtin(char **);
 int shell_exit(char **);
 int shell_env(char **);
+char *_strtok(char *line, char *delim);
+int shell_setenv(char **commands);
+int shell_unsetenv(char **commands);
+int _setenv(char *name, char *value, char **env);
+int _unsetenv(char *name, char **env);
 
 /* utils */
 void _puts(char *);
 char *_strn(char *);
 char *_strdup(const char *str);
-char *_strcpy(char *, char *);
 char *str_concat(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 unsigned int _strlen(const char *);
 void mem_free(unsigned int, ...);
 int _strcmp(const char *, const char *);
-extern char **environ;
 void free_commands(char **);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+char *_strchr(char *s, char c);
+int _atoi(char *s);
+int _putchar(char c);
+char *_memset(char *s, char b, unsigned int n);
+char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, char *src);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void *_memcpy(void *dest, const void *src, unsigned int n);
+extern char **environ;
 
 #endif

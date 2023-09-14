@@ -7,6 +7,23 @@
  */
 int shell_exit(char **commands)
 {
+	int status;
+
+	if (commands[1] != NULL)
+	{
+		status = _atoi(commands[1]);
+		if (status != 0)
+		{
+			free_commands(commands);
+			exit(status);
+		}
+		else
+		{
+			_puts("Invalid status code: ");
+			_puts(commands[1]);
+			_putchar('\n');
+		}
+	}
 	free_commands(commands);
 	exit(0);
 }

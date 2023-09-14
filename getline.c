@@ -49,7 +49,7 @@
 			 char *new_line;
 
 			 *n *= 2;
-			 new_line = realloc(line, *n);
+			 new_line = _realloc(line, sizeof(line), *n);
 
 			 if (new_line == NULL)
 			 {
