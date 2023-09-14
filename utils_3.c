@@ -55,3 +55,61 @@ int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
+/**
+ * _memset -  fill a block of memory with a specified value.
+ * @s: This is the starting address of the box
+ * @b: This is the character that you want to put in each cell
+ * @n: This is the number of cells (bytes) you want to fill with the character
+ * Return: the pointer to the memory block after filling
+ */
+char *_memset(char *s, char b, unsigned int n)
+{
+	unsigned int i;
+
+	for (i = 0; i < n; i++)
+		s[i] = b;
+
+	return (s);
+}
+
+/**
+ * char *_strcpy - a function that copies the string pointed to by src
+ * @dest: copy to
+ * @src: copy from
+ * Return: string
+ */
+char *_strcpy(char *dest, char *src)
+{
+	int length = 0;
+
+	while (src[length] != '\0')
+	{
+		dest[length] = src[length];
+		length++;
+	}
+	dest[length] = '\0';
+	return (dest);
+}
+/**
+ * _strcat - concatenates two strings
+ * @dest: input value
+ * @src: input value
+ *
+ * Return: dest
+ */
+char *_strcat(char *dest, char *src)
+{
+	int i;
+	int j;
+
+	for (i = 0; dest[i] != '\0'; i++)
+		;
+	for (j = 0; src[j] != '\0'; j++)
+	{
+		dest[i + j] = src[j];
+	}
+
+	dest[i + j] = '\0';
+
+	return (dest);
+}
