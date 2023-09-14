@@ -55,10 +55,10 @@ int _strcmp(const char *, const char *);
 void free_commands(char **);
 char *_strchr(char *s, char c);
 int _atoi(char *s);
-int _putchar(char c);
 char *_memset(char *s, char b, unsigned int n);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
+int _isdigit(int c);
 
 extern char **environ;
 

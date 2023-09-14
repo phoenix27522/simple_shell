@@ -44,16 +44,17 @@ int _atoi(char *s)
 
 	return (n);
 }
+
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * _isdigit - retrns 1 if it is digit and 0 if not
+ * @c: a int to be checked
+ * Return: is int 0 or 1
  */
-int _putchar(char c)
+int _isdigit(int c)
 {
-	return (write(1, &c, 1));
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
 /**
  * _memset -  fill a block of memory with a specified value.

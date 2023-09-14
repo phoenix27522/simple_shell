@@ -7,10 +7,22 @@
  */
 int shell_exit(char **commands)
 {
-	int status;
+	int status, i;
 
 	if (commands[1] != NULL)
 	{
+		for (i = 0; commands[1][i] != '\0'; i++)
+		{
+			if (!_isdigit(commands[1][i]))
+			{
+				_puts("Illegal number: ");
+				_puts(commands[1]);
+				_puts("\n");
+				free_commands(commands);
+				exit(1);
+			}
+		}
+
 		status = _atoi(commands[1]);
 		if (status != 0)
 		{
@@ -21,7 +33,7 @@ int shell_exit(char **commands)
 		{
 			_puts("Invalid status code: ");
 			_puts(commands[1]);
-			_putchar('\n');
+			_puts("\n");
 		}
 	}
 	free_commands(commands);
