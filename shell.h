@@ -52,5 +52,7 @@ int _strcmp(const char *, const char *);
 extern char **environ;
 void free_commands(char **);
 char *_strchr(char *s, char c);
+int _atoi(char *s);
+int _putchar(char c);
 
 #endif
