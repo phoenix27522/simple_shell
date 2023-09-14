@@ -50,5 +50,6 @@ void mem_free(unsigned int, ...);
 int _strcmp(const char *, const char *);
 extern char **environ;
 void free_commands(char **);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif

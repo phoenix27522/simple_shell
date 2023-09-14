@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 		display_prompt();
 		/* Read User Input*/
 
-		if (getline(&input, &bufsize, stdin) == -1)
+		if (_getline(&input, &bufsize, stdin) == -1)
 		{
 			_puts("\n");
 			free(input);
