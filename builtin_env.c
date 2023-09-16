@@ -38,45 +38,61 @@ int shell_setenv(char **commands)
  */
 int _setenv(char *name, char *value, char **env)
 {
-	char *new_env_var;
-	int len, i;
+	int overwrite = 0, i = 0, new_env_len;
+	char *new_env_var = NULL;
 
-	if (name == NULL || env == NULL)
+	if (name == NULL || value == NULL || env == NULL)
 		return (-1);
-	if (value != NULL)
-		len = _strlen(value) + 2;
-	new_env_var = (char *)malloc(len);
-	if (new_env_var == NULL)
-	{
-		perror("malloc");
-		return (-2);
-	}
-	_strcpy(new_env_var, name);
-	_strcat(new_env_var, "=");
-	if (value != NULL)
-		_strcat(new_env_var, value);
-	for (i = 0; env[i] != NULL; i++)
+
+	for (; env[i]; i++)
 	{
 		if (_strncmp(name, env[i], _strlen(name)) == 0
 				&& env[i][_strlen(name)] == '=')
 		{
-			/*free(env[i]);*/
-			env[i] = new_env_var;
-			return (0);
+			overwrite = 1;
+			if (value == NULL)
+			{
+				free(env[i]);
+				env[i] = NULL;
+			}
+			else
+			{
+				new_env_var = (char *)malloc(_strlen(name) + _strlen(value) + 2);
+				if (new_env_var == NULL)
+				{
+					perror("malloc");
+					free(new_env_var);
+					return (-2);
+				}
+				_memset(new_env_var, 0, _strlen(name) + _strlen(value) + 2);
+				_strcpy(new_env_var, name);
+				_strcat(new_env_var, "=");
+				_strcat(new_env_var, value);
+				env[i] = new_env_var;
+			}
+			break;
 		}
 	}
-	for (i = 0; env[i] != NULL; i++)
-		;
-	env = (char **)_realloc(env, (i + 2) * sizeof(char *),
-			(i + 2) * sizeof(char *));
-	if (env == NULL)
+	if (!overwrite && value != NULL)/*new variable*/
 	{
-		perror("realloc");
-		free(new_env_var);
-		return (-2);
+		new_env_len = _strlen(name) + _strlen(value) + 2;
+		new_env_var = (char *)malloc(new_env_len);
+		if (new_env_var == NULL)
+		{
+			perror("malloc");
+			return (-2);
+		}
+		_memset(new_env_var, 0, new_env_len);
+		_strcpy(new_env_var, name);
+		_strcat(new_env_var, "=");
+		_strcat(new_env_var, value);
+
+		while (env[i] != NULL)
+			i++;
+		free(env[i]);
+		env[i] = new_env_var;
+		env[i + 1] = NULL;
 	}
-	env[i] = new_env_var;
-	env[i + 1] = NULL;
 	return (0);
 }
 /**
