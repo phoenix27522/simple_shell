@@ -49,7 +49,8 @@ int _setenv(char *name, char *value, char **env)
 		if (_strncmp(name, env[i], _strlen(name)) == 0 && env[i][_strlen(name)] == '=')
 		{
 			overwrite = 1;
-			free(env[i]);
+			/*free(env[i]);*/
+			unsetenv(name);
 			env[i] = (value == NULL) ? NULL : new_env_var;
 			break;
 		}
