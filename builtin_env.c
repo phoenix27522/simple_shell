@@ -41,44 +41,58 @@ int _setenv(char *name, char *value, char **env)
 	int overwrite = 0, i = 0, new_env_len;
 	char *new_env_var = NULL;
 
-	if (name == NULL || value == NULL || env == NULL || env == NULL)
+	if (name == NULL || value == NULL || env == NULL)
 		return (-1);
 
 	for (; env[i]; i++)
 	{
-		if (_strncmp(name, env[i], _strlen(name)) == 0 && env[i][_strlen(name)] == '=')
+		if (_strncmp(name, env[i], _strlen(name)) == 0
+				&& env[i][_strlen(name)] == '=')
 		{
 			overwrite = 1;
-			free(env[i]);
-			env[i] = (value == NULL) ? NULL : new_env_var;
+			if (value == NULL)
+			{
+				free(env[i]);
+				env[i] = NULL;
+			}
+			else
+			{
+				new_env_var = (char *)malloc(_strlen(name) + _strlen(value) + 2);
+				if (new_env_var == NULL)
+				{
+					perror("malloc");
+					free(new_env_var);
+					return (-2);
+				}
+				_memset(new_env_var, 0, _strlen(name) + _strlen(value) + 2);
+				_strcpy(new_env_var, name);
+				_strcat(new_env_var, "=");
+				_strcat(new_env_var, value);
+				env[i] = new_env_var;
+			}
 			break;
 		}
 	}
-	if (value == NULL)
-		return (0);
-
-	new_env_len = strlen(name) + strlen(value) + 2;
-	new_env_var = (char *)malloc(new_env_len);
-
-	if (new_env_var == NULL)
+	if (!overwrite && value != NULL)/*new variable*/
 	{
-		perror("malloc");
-		return (-2);/* to know where ur error is at*/
-	}
+		new_env_len = _strlen(name) + _strlen(value) + 2;
+		new_env_var = (char *)malloc(new_env_len);
+		if (new_env_var == NULL)
+		{
+			perror("malloc");
+			return (-2);
+		}
+		_memset(new_env_var, 0, new_env_len);
+		_strcpy(new_env_var, name);
+		_strcat(new_env_var, "=");
+		_strcat(new_env_var, value);
 
-	_memset(new_env_var, 0, new_env_len);
-
-	_strcpy(new_env_var, name);
-	_strcat(new_env_var, "=");
-	_strcat(new_env_var, value);
-
-	if (!overwrite)
-	{
 		while (env[i] != NULL)
 			i++;
+		free(env[i]);
+		env[i] = new_env_var;
+		env[i + 1] = NULL;
 	}
-	env[i] = new_env_var;
-	env[i + 1] = NULL;
 	return (0);
 }
 /**
@@ -128,9 +142,10 @@ int _unsetenv(char *name, char **env)
 
 	for (i = 0; env[i] != NULL; i++)
 	{
-		if (_strncmp(name, env[i], _strlen(name)) == 0 && env[i][_strlen(name)] == '=')
+		if (_strncmp(name, env[i], _strlen(name)) == 0
+				&& env[i][_strlen(name)] == '=')
 		{
-			free(env[i]);
+			/*free(env[i]);*/
 
 			for (j = i; env[j] != NULL; j++)
 				env[j] = env[j + 1];
