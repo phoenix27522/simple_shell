@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <stdarg.h>
 
-#define BUFF_SIZE 1024
+#define MAX_SIZE 1024
 
 
 /* Structures */
@@ -42,6 +42,7 @@ int shell_setenv(char **commands);
 int shell_unsetenv(char **commands);
 int _setenv(char *name, char *value, char **env);
 int _unsetenv(char *name, char **env);
+int shell_cd(char **commands);
 
 /* utils */
 void _puts(char *);

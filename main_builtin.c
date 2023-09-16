@@ -13,6 +13,7 @@ int execute_builtin(char **commands)
 		{"env", shell_env},
 		{"setenv", shell_setenv},
 		{"unsetenv", shell_unsetenv},
+		{"cd", shell_cd},
 		{NULL, NULL}
 
 	};
