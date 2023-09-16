@@ -49,15 +49,6 @@ int main(int argc, char *argv[])
 					command = NULL;
 				}
 			}
-			/*
-			commands = parse_input(input, " ");
-			free(input);
-			input = NULL;
-			if (commands != NULL)
-			{
-				execute_command(commands, argv[0]);
-				free_commands(commands);
-			}*/
 			free_commands(commands);
 			commands = NULL;
 			continue;
