@@ -11,7 +11,9 @@ int main(int argc, char *argv[])
 {
 	char *input = NULL;
 	size_t bufsize = 0;
+	int i;
 	char **commands;
+	char **command;
 	(void)argc;
 
 	while (1)
@@ -30,6 +32,24 @@ int main(int argc, char *argv[])
 
 		if (input[0] != '\0')
 		{
+			/* handle command separator ; */
+			commands = parse_input(input, ";");
+			free(input);
+			input = NULL;
+			if (commands != NULL)
+			{
+				for (i = 0; commands[i] != NULL; i++)
+				{
+					command = parse_input(commands[i], " ");
+					if (command != NULL)
+					{
+						execute_command(command, argv[0]);
+						free_commands(command);
+					}
+					command = NULL;
+				}
+			}
+			/*
 			commands = parse_input(input, " ");
 			free(input);
 			input = NULL;
@@ -37,7 +57,8 @@ int main(int argc, char *argv[])
 			{
 				execute_command(commands, argv[0]);
 				free_commands(commands);
-			}
+			}*/
+			free_commands(commands);
 			commands = NULL;
 			continue;
 		}
