@@ -14,6 +14,7 @@ int execute_builtin(char **commands)
 		{"setenv", shell_setenv},
 		{"unsetenv", shell_unsetenv},
 		{"cd", shell_cd},
+		{"alias", shell_alias},
 		{NULL, NULL}
 
 	};

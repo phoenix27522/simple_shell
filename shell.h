@@ -17,6 +17,21 @@
 
 /* Structures */
 /**
+ * struct AliasData - struct for alias function
+ * @AliasData - name of the struct
+ * @name: name of the alias value
+ * @val: value for the alias
+ * @next: pointer to next node
+ *
+ */
+typedef struct Alias
+{
+	char *name;
+	char *value;
+	struct Alias *next;
+} Alias;
+
+/**
  * struct builtin - struct for the builtins
  * @built: the name of the builtin
  * @func: the associated function to be called for each builtin
@@ -63,6 +78,13 @@ char *_strcpy(char *dest, char *src);
 int _isdigit(int c);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void *_memcpy(void *dest, const void *src, unsigned int n);
+
+int shell_alias(char **commands);
+Alias *_getlias(const char *name);
+int _setalias(const char *name, const char *value);
+int _unsetalias(const char *name);
+void print_alias();
+int shell_alias(char **commands);
 
 extern char **environ;
 
