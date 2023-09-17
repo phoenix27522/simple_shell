@@ -43,7 +43,6 @@ int _setenv(char *name, char *value, char **env)
 
 	if (name == NULL || value == NULL || env == NULL)
 		return (-1);
-
 	for (; env[i]; i++)
 	{
 		if (_strncmp(name, env[i], _strlen(name)) == 0
