@@ -17,10 +17,10 @@
 
 /* Structures */
 /**
- * struct AliasData - struct for alias function
+ * struct Alias - struct for alias function
  * @AliasData - name of the struct
  * @name: name of the alias value
- * @val: value for the alias
+ * @value: value for the alias
  * @next: pointer to next node
  *
  */
@@ -83,7 +83,6 @@ int shell_alias(char **commands);
 Alias *_getlias(const char *name);
 int _setalias(const char *name, const char *value);
 int _unsetalias(const char *name);
-void print_alias();
 int shell_alias(char **commands);
 
 extern char **environ;
