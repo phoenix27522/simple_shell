@@ -9,30 +9,23 @@
  */
 int main(int argc, char *argv[])
 {
-	char *input = NULL;
+	char *input = NULL, **commands, **command;
 	size_t bufsize = 0;
 	int i;
-	char **commands;
-	char **command;
 	(void)argc;
 
 	while (1)
 	{
-		display_prompt();
-		/* Read User Input*/
-
+		display_prompt();/* Read User Input*/
 		if (_getline(&input, &bufsize, stdin) == -1)
 		{
 			_puts("\n");
 			free(input);
 			break;
 		}
-
 		input[_strlen(input) - 1] = '\0';
-
 		if (input[0] != '\0')
-		{
-			/* handle command separator ; */
+		{/* handle command separator ; */
 			commands = parse_input(input, ";");
 			free(input);
 			input = NULL;

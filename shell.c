@@ -69,7 +69,7 @@ char **parse_input(const char *input, char *delim)
 {
 	char **tokens = NULL;
 	char *token, *input_cpy = _strdup(input);
-	unsigned int i, j, count = 0;
+	unsigned int i, count = 0;
 
 	if (input_cpy == NULL)
 		exit(EXIT_FAILURE);
