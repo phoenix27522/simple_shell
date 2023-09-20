@@ -1,18 +1,18 @@
 #include "shell.h"
-#include <stdbool.h>
 /**
  * shell_exit -exits from shell
  * @commands: accepts argument
+ * @stat: command exit status
  *
  * Return: nothing it will not reach it will exit
  */
-int shell_exit(char **commands)
+int shell_exit(char **commands, int stat)
 {
-	int status = 0;
-	int i = 0;
+	int status, i;
+
 	if (commands[1] != NULL)
 	{
-		for (; commands[1][i] != '\0'; i++)
+		for (i = 0; commands[1][i] != '\0'; i++)
 		{
 			if (!_isdigit(commands[1][i]))
 			{
@@ -23,6 +23,7 @@ int shell_exit(char **commands)
 				exit(2);
 			}
 		}
+
 		status = _atoi(commands[1]);
 		if (status != 0)
 		{
@@ -37,20 +38,22 @@ int shell_exit(char **commands)
 		}
 	}
 	free_commands(commands);
-	exit(status);
+	exit(stat);
 }
 /**
  * shell_env - print current enviroment
  * @commands: accepts arguments
+ * @stat: command exit status
  *
  * Return: int
  *
  */
-int shell_env(char **commands)
+int shell_env(char **commands, int stat)
 {
 	int i = 0;
 	char **env = environ;
 	(void)commands;
+	(void)stat;
 
 
 	while (env[i])

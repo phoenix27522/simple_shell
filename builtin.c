@@ -20,7 +20,7 @@ int shell_exit(char **commands, int stat)
 				write(STDERR_FILENO, commands[1], strlen(commands[1]));
 				write(STDERR_FILENO, "\n", 1);
 				free_commands(commands);
-				exit(1);
+				exit(2);
 			}
 		}
 

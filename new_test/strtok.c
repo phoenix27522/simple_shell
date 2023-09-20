@@ -13,13 +13,13 @@ char *_strtok(char *line, char *delim)
 
 	if (line != NULL)
 		saveptr = line;
-	else if (saveptr == NULL || *saveptr == '\0')
-		return (NULL);
 
-	while (*saveptr != '\0' && _strchr(delim, *saveptr))
+	while (*saveptr != '\0' && _strchr(delim, *saveptr) != NULL)
 		saveptr++;
 
 	token_start = saveptr;
+	if (*token_start == '\0')
+		return (NULL);
 
 	while (*saveptr != '\0' && !(_strchr(delim, *saveptr)))
 		saveptr++;
