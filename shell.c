@@ -13,8 +13,9 @@ void display_prompt(void)
  * @commands: pointer to arrays of strings
  * of a command and its arguments and options
  * @name: name of the program
+ * @envp: environnement variables pointer
  */
-void execute_command(char **commands, char *name)
+void execute_command(char **commands, char *name, char **envp)
 {
 	pid_t pid;
 	char *path, *command;
@@ -41,8 +42,6 @@ void execute_command(char **commands, char *name)
 	}
 	if (pid == 0)
 	{
-		char *envp[] = {NULL};
-
 		if (execve(command, commands, envp) == -1)
 		{
 			perror(name);

@@ -2,6 +2,6 @@ test/
 shell
 testfile/
 hsh
-TEST_SUITES/
+TEST_SUITE/
 allowed_functions
 runchecker.bash
