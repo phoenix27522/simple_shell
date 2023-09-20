@@ -14,38 +14,40 @@ void display_prompt(void)
  * of a command and its arguments and options
  * @name: name of the program
  * @envp: environnement variables pointer
+ * @stat:exit status of child
  */
-void execute_command(char **commands, char *name, char **envp)
+void execute_command(char **commands, char *name, char **envp, int *stat)
 {
 	pid_t pid;
-	char *path, *command;
+	char *path, *command, *error;
 	int status, get = 0;
 
 	path = _getenv("PATH");
 
-	get = execute_builtin(commands);
+	get = execute_builtin(commands, *stat);
 
 	if (get == 0)
 		return;
-	command = find_command(path, commands[0]);
-	if (path == NULL || command == NULL)
-	{
-		perror(name);
-		return;
-	}
 	pid = fork();
 	if (pid < 0)
 	{
-		free(command);
 		perror(name);
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
 	{
+		command = find_command(path, commands[0]);
+		if (command == NULL)
+		{
+			error = "not found";
+			print_error(name, 1, commands[0], error);
+			exit(127);
+		}
 		if (execve(command, commands, envp) == -1)
 		{
 			perror(name);
-			exit(EXIT_FAILURE);
+			free(command);
+			exit(127);
 		}
 		free(command);
 		exit(EXIT_SUCCESS);
@@ -53,7 +55,7 @@ void execute_command(char **commands, char *name, char **envp)
 	else
 	{
 		waitpid(pid, &status, 0);
-		free(command);
+		*stat = WEXITSTATUS(status);
 	}
 }
 
@@ -72,13 +74,13 @@ char **parse_input(const char *input, char *delim)
 
 	if (input_cpy == NULL)
 		exit(EXIT_FAILURE);
-	token = strtok(input_cpy, delim);
+	token = _strtok(input_cpy, delim);
 	if (token == NULL)
 		return (NULL);
 	while (token != NULL)
 	{
 		count++;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 	}
 	tokens = malloc(sizeof(char *) * (count + 1));
 	free(input_cpy);

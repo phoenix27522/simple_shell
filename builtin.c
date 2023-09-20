@@ -2,10 +2,11 @@
 /**
  * shell_exit -exits from shell
  * @commands: accepts argument
+ * @stat: command exit status
  *
  * Return: nothing it will not reach it will exit
  */
-int shell_exit(char **commands)
+int shell_exit(char **commands, int stat)
 {
 	int status, i;
 
@@ -37,20 +38,22 @@ int shell_exit(char **commands)
 		}
 	}
 	free_commands(commands);
-	exit(0);
+	exit(stat);
 }
 /**
  * shell_env - print current enviroment
  * @commands: accepts arguments
+ * @stat: command exit status
  *
  * Return: int
  *
  */
-int shell_env(char **commands)
+int shell_env(char **commands, int stat)
 {
 	int i = 0;
 	char **env = environ;
 	(void)commands;
+	(void)stat;
 
 
 	while (env[i])

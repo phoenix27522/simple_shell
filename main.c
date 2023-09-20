@@ -12,7 +12,7 @@ int main(int argc, char *argv[], char **envp)
 {
 	char *input = NULL, **commands;
 	size_t bufsize = 0;
-	int mode;
+	int mode, status = 0;
 	(void)argc;
 
 	mode = isatty(STDIN_FILENO);
@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char **envp)
 	{
 		if (mode == INT_MODE)
 			display_prompt();
-		if (getline(&input, &bufsize, stdin) == -1)
+		if (_getline(&input, &bufsize, stdin) == -1)
 		{
 			free(input);
 			if (mode == INT_MODE)
@@ -35,7 +35,7 @@ int main(int argc, char *argv[], char **envp)
 			input = NULL;
 			if (commands != NULL)
 			{
-				execute_command(commands, argv[0], envp);
+				execute_command(commands, argv[0], envp, &status);
 				free_commands(commands);
 			}
 			commands = NULL;
@@ -43,8 +43,8 @@ int main(int argc, char *argv[], char **envp)
 		}
 		free(input);
 		input = NULL;
-		if (mode != INT_MODE)
-			break;
 	}
+	if (mode != INT_MODE)
+		exit(status);
 	return (EXIT_SUCCESS);
 }
