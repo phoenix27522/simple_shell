@@ -69,7 +69,7 @@ char **parse_input(const char *input, char *delim)
 {
 	char **tokens = NULL;
 	char *token, *input_cpy = _strdup(input);
-	unsigned int i, count = 0;
+	unsigned int i, j, count = 0;
 
 	if (input_cpy == NULL)
 		exit(EXIT_FAILURE);
@@ -116,7 +116,7 @@ char *find_command(char *path, char *command)
 
 	/* if full_path to cmd is given*/
 	if (access(command, X_OK) == 0)
-		return (_strdup(command));
+		return (command);
 	path_copy = _strdup(path);
 	paths = parse_input(path_copy, ":");
 	free(path_copy);

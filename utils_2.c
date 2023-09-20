@@ -57,13 +57,13 @@ void mem_free(const unsigned int n, ...)
 {
 	va_list args;
 	void *ptr;
-	unsigned int i;
+	int i;
 
 	if (n == 0)
 		return;
 
 	va_start(args, n);
-	for (i = 0; i < n; i++)
+	for (i = 0; i <n; i++)
 	{
 		ptr = va_arg(args, void *);
 		free(ptr);
@@ -72,7 +72,7 @@ void mem_free(const unsigned int n, ...)
 }
 
 /**
- * free_commands - Free the commands array
+ * free_command - Free the commands array
  * @commands: pointer to array of strings
  *
  */

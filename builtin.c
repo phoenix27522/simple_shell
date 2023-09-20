@@ -1,7 +1,7 @@
 #include "shell.h"
 /**
  * shell_exit -exits from shell
- * @commands: unused
+ * @argv: unused
  *
  * Return: nothing it will not reach it will exit
  */
@@ -41,7 +41,7 @@ int shell_exit(char **commands)
 }
 /**
  * shell_env - print current enviroment
- * @commands: accepts arguments
+ * @argv: accepts arguments
  *
  * Return: int
  *
