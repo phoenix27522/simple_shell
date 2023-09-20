@@ -9,25 +9,27 @@
  */
 int main(int argc, char *argv[])
 {
-	char *input = NULL;
+	char *input = NULL, **commands;
 	size_t bufsize = 0;
-	char **commands;
+	int mode;
 	(void)argc;
 
+	mode = isatty(STDIN_FILENO);
 	while (1)
 	{
-		display_prompt();
-		/* Read User Input*/
-
+		if (mode == INT_MODE)
+			display_prompt();
 		if (getline(&input, &bufsize, stdin) == -1)
-		{
-			_puts("\n");
-			free(input);
-			break;
+		{	free(input);
+			if (mode == INT_MODE)
+			{
+				_puts("\n");
+				break;
+			}
+			else
+				exit(EXIT_FAILURE);
 		}
-
 		input[_strlen(input) - 1] = '\0';
-
 		if (input[0] != '\0')
 		{
 			commands = parse_input(input, " ");
@@ -41,10 +43,10 @@ int main(int argc, char *argv[])
 			commands = NULL;
 			continue;
 		}
-
 		free(input);
 		input = NULL;
+		if (mode != INT_MODE)
+			exit(EXIT_SUCCESS);
 	}
-
 	return (EXIT_SUCCESS);
 }

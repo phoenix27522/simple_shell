@@ -13,6 +13,7 @@
 #include <stdarg.h>
 
 #define MAX_SIZE 1024
+#define INT_MODE 1
 
 
 /* Structures */
