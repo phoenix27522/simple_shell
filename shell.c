@@ -116,7 +116,7 @@ char *find_command(char *path, char *command)
 
 	/* if full_path to cmd is given*/
 	if (access(command, X_OK) == 0)
-		return (command);
+		return (_strdup(command));
 	path_copy = _strdup(path);
 	paths = parse_input(path_copy, ":");
 	free(path_copy);
