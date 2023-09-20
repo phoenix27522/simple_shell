@@ -72,7 +72,7 @@ void mem_free(const unsigned int n, ...)
 }
 
 /**
- * free_command - Free the commands array
+ * free_commands - Free the commands array
  * @commands: pointer to array of strings
  *
  */

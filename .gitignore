@@ -2,9 +2,4 @@ test/
 shell
 testfile/
 hsh
-utils_3.c
-utils_4.c
 
-getline.c
-builtin_aliases.c
-builtin_env.c

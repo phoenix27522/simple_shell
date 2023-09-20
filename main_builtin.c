@@ -11,10 +11,6 @@ int execute_builtin(char **commands)
 	built list[] = {
 		{"exit", shell_exit},
 		{"env", shell_env},
-		{"setenv", shell_setenv},
-		{"unsetenv", shell_unsetenv},
-		{"cd", shell_cd},
-		{"alias", shell_alias},
 		{NULL, NULL}
 
 	};
