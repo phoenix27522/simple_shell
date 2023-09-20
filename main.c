@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 				break;
 			}
 			else
-				exit(EXIT_FAILURE);
+				exit(0);
 		}
 		input[_strlen(input) - 1] = '\0';
 		if (input[0] != '\0')
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 		free(input);
 		input = NULL;
 		if (mode != INT_MODE)
-			exit(EXIT_SUCCESS);
+			break;
 	}
 	return (EXIT_SUCCESS);
 }

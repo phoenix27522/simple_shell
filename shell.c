@@ -73,11 +73,13 @@ char **parse_input(const char *input, char *delim)
 
 	if (input_cpy == NULL)
 		exit(EXIT_FAILURE);
-	token = _strtok(input_cpy, delim);
+	token = strtok(input_cpy, delim);
+	if (token == NULL)
+		return (NULL);
 	while (token != NULL)
 	{
 		count++;
-		token = _strtok(NULL, delim);
+		token = strtok(NULL, delim);
 	}
 	tokens = malloc(sizeof(char *) * (count + 1));
 	free(input_cpy);

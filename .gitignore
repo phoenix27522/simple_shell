@@ -2,4 +2,6 @@ test/
 shell
 testfile/
 hsh
-
+TEST_SUITES
+allowed_functions
+runchecker.bash
