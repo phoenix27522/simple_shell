@@ -73,10 +73,13 @@ char **parse_input(const char *input, char *delim)
 	unsigned int i, count = 0;
 
 	if (input_cpy == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	token = _strtok(input_cpy, delim);
 	if (token == NULL)
+	{
+		free(input_cpy);
 		return (NULL);
+	}
 	while (token != NULL)
 	{
 		count++;
@@ -85,7 +88,7 @@ char **parse_input(const char *input, char *delim)
 	tokens = malloc(sizeof(char *) * (count + 1));
 	free(input_cpy);
 	if (tokens == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	input_cpy = _strdup(input);
 	token = _strtok(input_cpy, delim);
 	for (i = 0; i < count; i++)
@@ -95,7 +98,7 @@ char **parse_input(const char *input, char *delim)
 		{
 			free(input_cpy);
 			free_commands(tokens);
-			exit(EXIT_FAILURE);
+			return (NULL);
 		}
 		token = _strtok(NULL, delim);
 	}
