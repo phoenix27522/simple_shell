@@ -19,19 +19,19 @@ void display_prompt(void)
 void execute_command(char **commands, char *name, char **envp, int *stat)
 {
 	pid_t pid;
-	char *path, *command = NULL, *error;
+	char *path, *command = NULL, *error = "not found";
 	int status, get = 0;
 
-	path = _getenv("PATH");
-
 	get = execute_builtin(commands, *stat);
-
 	if (get == 0)
 		return;
-	command = find_command(path, commands[0]);
+	path = _getenv("PATH");
+	if (*path == '\0' || path == NULL)
+		command = _strdup(commands[0]);
+	else
+		command = find_command(path, commands[0]);
 	if (command == NULL)
 	{
-		error = "not found";
 		print_error(name, 1, commands[0], error);
 		*stat = 127;
 		return;
@@ -46,7 +46,7 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 	{
 		if (execve(command, commands, envp) == -1)
 		{
-			perror(name);
+			print_error(name, 1, commands[0], error);
 			free(command);
 			exit(127);
 		}
