@@ -46,6 +46,7 @@ int shell_exit(char **commands, int stat)
  * @stat: command exit status
  *
  * Return: int
+ *
  */
 int shell_env(char **commands, int stat)
 {
@@ -66,7 +67,7 @@ int shell_env(char **commands, int stat)
 /**
  * shell_cd - changes the current directory of the process
  * @commands: accepts argument
- * @stat: status
+ *
  * Return: 0 on success, -1 on failure
  */
 int shell_cd(char **commands, int stat)
@@ -78,18 +79,21 @@ int shell_cd(char **commands, int stat)
 
 	current_dir = getcwd(store_dir, MAX_SIZE);
 	if (!current_dir)
-	{	perror("");
+	{
+		perror("getcwd");
 		return (-1);
 	}
 	if (!commands[1])
-	{	dir = _getenv("HOME");
+	{
+		dir = _getenv("HOME");
 		if (!dir)
 			dir = _getenv("PWD");
 		else
 			check_chdir = chdir(dir);
 	}
 	else if (_strcmp(commands[1], "-") == 0)
-	{	dir = _getenv("OLDPWD");
+	{
+		dir = _getenv("OLDPWD");
 		if (!dir)
 		{
 			_puts(current_dir);
@@ -103,7 +107,8 @@ int shell_cd(char **commands, int stat)
 	else
 		check_chdir = chdir(commands[1]);
 	if (check_chdir != -1)
-	{	_setenv("OLDPWD", current_dir, env);
+	{
+		_setenv("OLDPWD", current_dir, env);
 		_setenv("PWD", getcwd(store_dir, sizeof(store_dir)), env);
 		return (0);
 	}
