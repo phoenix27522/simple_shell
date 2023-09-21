@@ -66,7 +66,7 @@ int shell_env(char **commands, int stat)
 /**
  * shell_cd - changes the current directory of the process
  * @commands: accepts argument
- *
+ * @stat: status
  * Return: 0 on success, -1 on failure
  */
 int shell_cd(char **commands, int stat)
