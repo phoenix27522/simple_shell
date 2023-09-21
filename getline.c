@@ -19,7 +19,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 
 	if (lineptr == NULL || n == NULL || stream == NULL)
 		return (-1);
-	if (*lineptr == NULL)
+	if (*lineptr == NULL || *n == 0)
 	{	*n = 128;
 		*lineptr = malloc(*n);
 		if (*lineptr == NULL)
@@ -49,7 +49,5 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 			break;
 	}
 	line[len] = '\0';
-	if (len == 0 && EOF)
-		return (-1);
 	return (len);
 }
