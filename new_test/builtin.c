@@ -80,10 +80,7 @@ int shell_cd(char **commands, int stat)
 	current_dir = getcwd(store_dir, MAX_SIZE);
 	if (!current_dir)
 	{
-		/*perror("");*/
-		write(STDERR_FILENO, "./hsh: 1: cd: can't cd to: ", 28);
-                write(STDERR_FILENO, commands[1], strlen(commands[1]));
-                write(STDERR_FILENO, "\n", 1);
+		perror("getcwd");
 		return (-1);
 	}
 	if (!commands[1])

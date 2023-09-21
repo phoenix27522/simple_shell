@@ -2,6 +2,7 @@
 /**
  * shell_setenv - set the enviroment
  * @commands: accepts arguments
+ * @stat: status
  * Return: zero if sucess, or other number if its declared in the arguments
  */
 int shell_setenv(char **commands, int stat)
@@ -39,8 +40,7 @@ int shell_setenv(char **commands, int stat)
  * 2 if there is an error, or 0 if success.
  */
 int _setenv(char *name, char *value, char **env)
-{
-	int overwrite = 0, i = 0, new_env_len;
+{	int overwrite = 0, i = 0, new_env_len;
 	char *new_env_var = NULL;
 
 	if (name == NULL || value == NULL || env == NULL)
@@ -49,56 +49,43 @@ int _setenv(char *name, char *value, char **env)
 	{
 		if (_strncmp(name, env[i], _strlen(name)) == 0
 				&& env[i][_strlen(name)] == '=')
-		{
-			overwrite = 1;
+		{	overwrite = 1;
 			if (value == NULL)
-			{
-				free(env[i]);
+			{	free(env[i]);
 				env[i] = NULL;
-			}
-			else
-			{
-				new_env_var = (char *)malloc(_strlen(name) + _strlen(value) + 2);
+			} else
+			{	new_env_var = (char *)malloc(_strlen(name) + _strlen(value) + 2);
 				if (new_env_var == NULL)
-				{
-					perror("malloc");
+				{	perror("malloc");
 					free(new_env_var);
 					return (-2);
 				}
 				_memset(new_env_var, 0, _strlen(name) + _strlen(value) + 2);
-				_strcpy(new_env_var, name);
-				_strcat(new_env_var, "=");
-				_strcat(new_env_var, value);
+				set_env_var(name, value, new_env_var);
 				env[i] = new_env_var;
-			}
-			break;
+			} break;
 		}
 	}
 	if (!overwrite && value != NULL)/*new variable*/
-	{
-		new_env_len = _strlen(name) + _strlen(value) + 2;
+	{	new_env_len =  _strlen(name) + _strlen(value) + 2;
 		new_env_var = (char *)malloc(new_env_len);
 		if (new_env_var == NULL)
-		{
-			perror("malloc");
+		{	perror("malloc");
 			return (-2);
 		}
-		_memset(new_env_var, 0, new_env_len);
-		_strcpy(new_env_var, name);
-		_strcat(new_env_var, "=");
-		_strcat(new_env_var, value);
-
+		memset(new_env_var, 0, new_env_len);
+		set_env_var(name, value, new_env_var);
 		while (env[i] != NULL)
 			i++;
 		free(env[i]);
 		env[i] = new_env_var;
 		env[i + 1] = NULL;
-	}
-	return (0);
+	} return (0);
 }
 /**
  * shell_unsetenv - unset the enviroment
  * @commands: accepts arguments
+ * @stat: status
  * Return: 0 sucess, or other number if its declared in the arguments
  */
 int shell_unsetenv(char **commands, int stat)
@@ -157,4 +144,18 @@ int _unsetenv(char *name, char **env)
 		}
 	}
 	return (0);
+}
+/**
+ * set_env_var - Constructs an environment variable string.
+ * @name: The name of the environment variable.
+ * @value: The value to assign to the environment variable.
+ * @new_env_var: A buffer to store the constructed environment variable.
+ *
+ * Return: does not return a value
+ */
+void set_env_var(char *name, char *value, char *new_env_var)
+{
+	strcpy(new_env_var, name);
+	strcat(new_env_var, "=");
+	strcat(new_env_var, value);
 }

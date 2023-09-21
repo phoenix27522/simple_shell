@@ -86,6 +86,7 @@ Alias *_getlias(const char *name);
 int _setalias(const char *name, const char *value);
 int _unsetalias(const char *name);
 int shell_alias(char **commands);
+void set_env_var(char *name, char *value, char *new_env_var);
 
 extern char **environ;
 

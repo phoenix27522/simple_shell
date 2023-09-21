@@ -46,7 +46,6 @@ int shell_exit(char **commands, int stat)
  * @stat: command exit status
  *
  * Return: int
- *
  */
 int shell_env(char **commands, int stat)
 {
@@ -79,24 +78,18 @@ int shell_cd(char **commands, int stat)
 
 	current_dir = getcwd(store_dir, MAX_SIZE);
 	if (!current_dir)
-	{
-		/*perror("");*/
-		write(STDERR_FILENO, "./hsh: 1: cd: can't cd to: ", 28);
-                write(STDERR_FILENO, commands[1], strlen(commands[1]));
-                write(STDERR_FILENO, "\n", 1);
+	{	perror("");
 		return (-1);
 	}
 	if (!commands[1])
-	{
-		dir = _getenv("HOME");
+	{	dir = _getenv("HOME");
 		if (!dir)
 			dir = _getenv("PWD");
 		else
 			check_chdir = chdir(dir);
 	}
 	else if (_strcmp(commands[1], "-") == 0)
-	{
-		dir = _getenv("OLDPWD");
+	{	dir = _getenv("OLDPWD");
 		if (!dir)
 		{
 			_puts(current_dir);
@@ -110,8 +103,7 @@ int shell_cd(char **commands, int stat)
 	else
 		check_chdir = chdir(commands[1]);
 	if (check_chdir != -1)
-	{
-		_setenv("OLDPWD", current_dir, env);
+	{	_setenv("OLDPWD", current_dir, env);
 		_setenv("PWD", getcwd(store_dir, sizeof(store_dir)), env);
 		return (0);
 	}
