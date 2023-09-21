@@ -54,12 +54,12 @@ int execute_builtin(char **, int);
 int shell_exit(char **, int);
 int shell_env(char **, int);
 char *_strtok(char *line, char *delim);
-int shell_setenv(char **commands);
-int shell_unsetenv(char **commands);
+int shell_setenv(char **commands, int);
+int shell_unsetenv(char **commands, int);
 int _setenv(char *name, char *value, char **env);
 int _unsetenv(char *name, char **env);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-int shell_cd(char **commands);
+int shell_cd(char **commands, int);
 void print_error(char *name, int status, char *input, char *desc);
 
 /* utils */

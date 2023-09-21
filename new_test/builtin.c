@@ -64,3 +64,57 @@ int shell_env(char **commands, int stat)
 	}
 	return (0);
 }
+/**
+ * shell_cd - changes the current directory of the process
+ * @commands: accepts argument
+ *
+ * Return: 0 on success, -1 on failure
+ */
+int shell_cd(char **commands, int stat)
+{
+	char *dir = NULL, store_dir[MAX_SIZE], *current_dir, **env = environ;
+	int check_chdir = 0;
+
+	(void)stat;
+
+	current_dir = getcwd(store_dir, MAX_SIZE);
+	if (!current_dir)
+	{
+		/*perror("");*/
+		write(STDERR_FILENO, "./hsh: 1: cd: can't cd to: ", 28);
+                write(STDERR_FILENO, commands[1], strlen(commands[1]));
+                write(STDERR_FILENO, "\n", 1);
+		return (-1);
+	}
+	if (!commands[1])
+	{
+		dir = _getenv("HOME");
+		if (!dir)
+			dir = _getenv("PWD");
+		else
+			check_chdir = chdir(dir);
+	}
+	else if (_strcmp(commands[1], "-") == 0)
+	{
+		dir = _getenv("OLDPWD");
+		if (!dir)
+		{
+			_puts(current_dir);
+			_puts("\n");
+			return (0);
+		}
+		_puts(dir);
+		_puts("\n");
+		check_chdir = chdir(dir);
+	}
+	else
+		check_chdir = chdir(commands[1]);
+	if (check_chdir != -1)
+	{
+		_setenv("OLDPWD", current_dir, env);
+		_setenv("PWD", getcwd(store_dir, sizeof(store_dir)), env);
+		return (0);
+	}
+	return (-1);
+
+}
