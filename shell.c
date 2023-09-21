@@ -19,7 +19,7 @@ void display_prompt(void)
 void execute_command(char **commands, char *name, char **envp, int *stat)
 {
 	pid_t pid;
-	char *path, *command, *error;
+	char *path, *command = NULL, *error;
 	int status, get = 0;
 
 	path = _getenv("PATH");
@@ -28,6 +28,14 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 
 	if (get == 0)
 		return;
+	command = find_command(path, commands[0]);
+	if (command == NULL)
+	{
+		error = "not found";
+		print_error(name, 1, commands[0], error);
+		*stat = 127;
+		return;
+	}
 	pid = fork();
 	if (pid < 0)
 	{
@@ -36,13 +44,6 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 	}
 	if (pid == 0)
 	{
-		command = find_command(path, commands[0]);
-		if (command == NULL)
-		{
-			error = "not found";
-			print_error(name, 1, commands[0], error);
-			exit(127);
-		}
 		if (execve(command, commands, envp) == -1)
 		{
 			perror(name);
@@ -53,9 +54,9 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 		exit(EXIT_SUCCESS);
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
+	{	waitpid(pid, &status, 0);
 		*stat = WEXITSTATUS(status);
+		free(command);
 	}
 }
 
@@ -120,6 +121,8 @@ char *find_command(char *path, char *command)
 	char **paths;
 	unsigned int i = 0;
 
+	if (path[0] == '\0')
+		return (NULL);
 	/* if full_path to cmd is given*/
 	if (access(command, X_OK) == 0)
 		return (_strdup(command));
@@ -131,13 +134,12 @@ char *find_command(char *path, char *command)
 		char *path1 = str_concat(paths[i], "/");
 		char *full_path = str_concat(path1, command);
 
+		free(path1);
 		if (access(full_path, X_OK) == 0)
 		{
-			free(path1);
 			free_commands(paths);
 			return (full_path);
 		}
-		free(path1);
 		free(full_path);
 		full_path = NULL;
 		path1 = NULL;
