@@ -80,11 +80,12 @@ void free_commands(char **commands)
 {
 	unsigned int i = 0;
 
-	if (!commands || commands == NULL)
+	if (!commands)
 		return;
 
 	for (i = 0; commands[i] != NULL; i++)
-		free(commands[i]);
+		if (commands[i])
+			free(commands[i]);
 	free(commands);
 }
 /**

@@ -19,15 +19,23 @@ void display_prompt(void)
 void execute_command(char **commands, char *name, char **envp, int *stat)
 {
 	pid_t pid;
-	char *path, *command, *error;
+	char *path, *command = NULL, *error = "not found";
 	int status, get = 0;
 
-	path = _getenv("PATH");
-
 	get = execute_builtin(commands, *stat);
-
 	if (get == 0)
 		return;
+	path = _getenv("PATH");
+	if (*path == '\0' || path == NULL)
+		command = _strdup(commands[0]);
+	else
+		command = find_command(path, commands[0]);
+	if (commands == NULL)
+	{
+		print_error(name, 1, commands[0], error);
+		*stat = 127;
+		return;
+	}
 	pid = fork();
 	if (pid < 0)
 	{
@@ -36,16 +44,9 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 	}
 	if (pid == 0)
 	{
-		command = find_command(path, commands[0]);
-		if (command == NULL)
-		{
-			error = "not found";
-			print_error(name, 1, commands[0], error);
-			exit(127);
-		}
 		if (execve(command, commands, envp) == -1)
 		{
-			perror(name);
+			print_error(name, 1, commands[0], error);
 			free(command);
 			exit(127);
 		}
@@ -53,9 +54,9 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 		exit(EXIT_SUCCESS);
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
+	{	waitpid(pid, &status, 0);
 		*stat = WEXITSTATUS(status);
+		free(command);
 	}
 }
 
@@ -73,10 +74,13 @@ char **parse_input(const char *input, char *delim)
 	unsigned int i, count = 0;
 
 	if (input_cpy == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	token = _strtok(input_cpy, delim);
 	if (token == NULL)
+	{
+		free(input_cpy);
 		return (NULL);
+	}
 	while (token != NULL)
 	{
 		count++;
@@ -85,7 +89,7 @@ char **parse_input(const char *input, char *delim)
 	tokens = malloc(sizeof(char *) * (count + 1));
 	free(input_cpy);
 	if (tokens == NULL)
-		exit(EXIT_FAILURE);
+		return (NULL);
 	input_cpy = _strdup(input);
 	token = _strtok(input_cpy, delim);
 	for (i = 0; i < count; i++)
@@ -95,7 +99,7 @@ char **parse_input(const char *input, char *delim)
 		{
 			free(input_cpy);
 			free_commands(tokens);
-			exit(EXIT_FAILURE);
+			return (NULL);
 		}
 		token = _strtok(NULL, delim);
 	}
@@ -117,6 +121,8 @@ char *find_command(char *path, char *command)
 	char **paths;
 	unsigned int i = 0;
 
+	if (path[0] == '\0')
+		return (NULL);
 	/* if full_path to cmd is given*/
 	if (access(command, X_OK) == 0)
 		return (_strdup(command));
@@ -128,13 +134,12 @@ char *find_command(char *path, char *command)
 		char *path1 = str_concat(paths[i], "/");
 		char *full_path = str_concat(path1, command);
 
+		free(path1);
 		if (access(full_path, X_OK) == 0)
 		{
-			free(path1);
 			free_commands(paths);
 			return (full_path);
 		}
-		free(path1);
 		free(full_path);
 		full_path = NULL;
 		path1 = NULL;

@@ -13,20 +13,24 @@ int shell_setenv(char **commands, int stat)
 
 	if (commands[1] == NULL || commands[2] == NULL)
 	{
-		_puts("Usage: setenv VARIABLE VALUE");
+		/*_puts("Usage: setenv VARIABLE VALUE");*/
 		return (0);
 	}
 
 	if (commands[3] != NULL)
 	{
-		perror("setenv");
+		write(STDERR_FILENO, "Error: ", strlen("Error: "));
+		write(STDERR_FILENO, "Too many arguments for setenv",
+				strlen("Too many arguments for setenv"));
+		write(STDERR_FILENO, "\n", 1);
 		return (0);
 	}
 
 	if (_setenv(commands[1], commands[2], env) == 0)
-		_puts("Environment variable set successfully\n");
-	else
-		_puts("Error setting environment variable\n");
+	{
+		/*_puts("Environment variable set successfully\n");*/
+		return (0);
+	}
 
 	return (0);
 }
@@ -95,25 +99,25 @@ int shell_unsetenv(char **commands, int stat)
 
 	if (commands[1] == NULL)
 	{
-		_puts("Usage: unsetenv <variable>");
+		/*_puts("Usage: unsetenv <variable>");*/
 		return (0);
 	}
 
 	if (commands[2] != NULL)
 	{
+		write(STDERR_FILENO, "Error: ", strlen("Error: "));
+		write(STDERR_FILENO, "Too many arguments for setenv",
+				strlen("Too many arguments for setenv"));
+		write(STDERR_FILENO, "\n", 1);
 		return (0);
 	}
 
 	if (_unsetenv(commands[1], env) == 1)
 	{
-		_puts("Environment variable unset successfully\n");
+		/*_puts("Environment variable unset successfully\n");*/
 		return (0);
 	}
-	else
-	{
-		_puts("Environment variable not found\n");
-		return (1);
-	}
+	return (0);
 }
 /**
  * _unsetenv - unsets the enviroment

@@ -20,14 +20,14 @@ int main(int argc, char *argv[], char **envp)
 	{
 		if (mode == INT_MODE)
 			display_prompt();
-		if (_getline(&input, &bufsize, stdin) == -1)
+		if (getline(&input, &bufsize, stdin) == -1)
 		{
 			free(input);
 			if (mode == INT_MODE)
 				_puts("\n");
 			break;
 		}
-		input[_strlen(input) - 1] = '\0';
+		input[strcspn(input, "\n")] = '\0';
 		if (input[0] != '\0')
 		{
 			commands = parse_input(input, " ");
