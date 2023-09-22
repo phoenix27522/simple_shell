@@ -30,23 +30,22 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 		command = _strdup(commands[0]);
 	else
 		command = find_command(path, commands[0]);
-	if (command == NULL)
+	if (command == NULL || ((path == NULL || *path == '\0') && *command != '/'))
 	{	print_error(name, 1, commands[0], error);
 		*stat = 127;
+		free(command);
 		return;
 	}
 	pid = fork();
 	if (pid < 0)
-	{	perror(name);
-		free(command);
+	{	perror(name), free(command);
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
 	{
 		if (execve(command, commands, envp) == -1)
 		{	print_error(name, 1, commands[0], error);
-			free(command);
-			free_commands(commands);
+			free(command), free_commands(commands);
 			exit(127);
 		}
 		free(command);
