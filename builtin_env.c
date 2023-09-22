@@ -25,9 +25,7 @@ int shell_setenv(char **commands, int stat)
 
 	if (_setenv(commands[1], commands[2], env) == 0)
 		/*_puts("Environment variable set successfully\n");*/
-		return(0);
-	else
-		_puts("Error setting environment variable\n");
+		return (0);
 
 	return (0);
 }
@@ -99,7 +97,7 @@ int shell_unsetenv(char **commands, int stat)
 		/*_puts("Usage: unsetenv <variable>");*/
 		return (0);
 	}
- 
+
 	if (commands[2] != NULL)
 	{
 		return (0);
@@ -110,11 +108,7 @@ int shell_unsetenv(char **commands, int stat)
 		/*_puts("Environment variable unset successfully\n");*/
 		return (0);
 	}
-	else
-	{
-		_puts("Environment variable not found\n");
-		return (1);
-	}
+	return (0);
 }
 /**
  * _unsetenv - unsets the enviroment
