@@ -24,7 +24,7 @@ int shell_setenv(char **commands, int stat)
 	}
 
 	if (_setenv(commands[1], commands[2], env) == 0)
-		_puts("Environment variable set successfully\n");
+		/*_puts("Environment variable set successfully\n");*/
 	else
 		_puts("Error setting environment variable\n");
 
@@ -106,7 +106,7 @@ int shell_unsetenv(char **commands, int stat)
 
 	if (_unsetenv(commands[1], env) == 1)
 	{
-		_puts("Environment variable unset successfully\n");
+		/*_puts("Environment variable unset successfully\n");*/
 		return (0);
 	}
 	else
