@@ -26,7 +26,7 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 	if (get == 0)
 		return;
 	path = _getenv("PATH");
-	if (*path == '\0' || path == NULL)
+	if (path == NULL || *path == '\0')
 		command = _strdup(commands[0]);
 	else
 		command = find_command(path, commands[0]);
