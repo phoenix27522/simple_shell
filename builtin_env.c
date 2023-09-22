@@ -94,12 +94,18 @@ int shell_unsetenv(char **commands, int stat)
 
 	if (commands[1] == NULL)
 	{
+		write(STDERR_FILENO, "Error: ", strlen("Error: "));
+		write(STDERR_FILENO, msg, strlen("Usage: setenv VARIABLE VALUE"));
+		write(STDERR_FILENO, "\n", 1);
 		/*_puts("Usage: unsetenv <variable>");*/
 		return (0);
 	}
 
 	if (commands[2] != NULL)
 	{
+		write(STDERR_FILENO, "Error: ", strlen("Error: "));
+                write(STDERR_FILENO, msg, strlen("Too many arguments for setenv"));
+                write(STDERR_FILENO, "\n", 1);
 		return (0);
 	}
 
@@ -107,6 +113,12 @@ int shell_unsetenv(char **commands, int stat)
 	{
 		/*_puts("Environment variable unset successfully\n");*/
 		return (0);
+	}
+	else
+	{
+		write(STDERR_FILENO, "Error: ", strlen("Error: "));
+		write(STDERR_FILENO, msg, strlen("Failed to set environment variable"));
+		write(STDERR_FILENO, "\n", 1);
 	}
 	return (0);
 }
