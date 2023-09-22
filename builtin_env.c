@@ -14,13 +14,13 @@ int shell_setenv(char **commands, int stat)
 	if (commands[1] == NULL || commands[2] == NULL)
 	{
 		/*_puts("Usage: setenv VARIABLE VALUE");*/
-		return (1);
+		return (0);
 	}
 
 	if (commands[3] != NULL)
 	{
 		perror("setenv");
-		return (1);
+		return (0);
 	}
 
 	if (_setenv(commands[1], commands[2], env) == 0)
@@ -97,9 +97,9 @@ int shell_unsetenv(char **commands, int stat)
 	if (commands[1] == NULL)
 	{
 		/*_puts("Usage: unsetenv <variable>");*/
-		return (1);
+		return (0);
 	}
-
+ 
 	if (commands[2] != NULL)
 	{
 		return (0);
