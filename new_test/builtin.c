@@ -78,7 +78,7 @@ int shell_cd(char **commands, int stat)
 
 	current_dir = getcwd(store_dir, MAX_SIZE);
 	if (!current_dir)
-	{	perror("");
+	{	perror("gcwd");
 		return (-1);
 	}
 	if (!commands[1])

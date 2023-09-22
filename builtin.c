@@ -78,8 +78,9 @@ int shell_cd(char **commands, int stat)
 
 	current_dir = getcwd(store_dir, MAX_SIZE);
 	if (!current_dir)
-	{	perror("");
-		return (-1);
+	{
+		perror("can't cd to");
+		exit(127);
 	}
 	if (!commands[1])
 	{	dir = _getenv("HOME");

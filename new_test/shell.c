@@ -30,7 +30,7 @@ void execute_command(char **commands, char *name, char **envp, int *stat)
 		command = _strdup(commands[0]);
 	else
 		command = find_command(path, commands[0]);
-	if (command == NULL)
+	if (commands == NULL)
 	{
 		print_error(name, 1, commands[0], error);
 		*stat = 127;
