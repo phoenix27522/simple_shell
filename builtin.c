@@ -103,7 +103,7 @@ int shell_cd(char **commands, int stat)
 	error = str_concat("can't cd to ", commands[1]);
 	if (check_chdir != -1)
 	{	setenv("OLDPWD", current_dir, 1);
-		setenv("PWD", dir, 1);
+		setenv("PWD", getcwd(store_dir, sizeof(store_dir)), 1);
 		free(error);
 		return (0);
 	}
