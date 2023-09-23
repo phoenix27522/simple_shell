@@ -71,7 +71,7 @@ int shell_env(char **commands, int stat)
  */
 int shell_cd(char **commands, int stat)
 {
-	char *dir = NULL, store_dir[MAX_SIZE], *current_dir, **env = environ;
+	char *dir = NULL, store_dir[MAX_SIZE], *current_dir;
 	int check_chdir = 0;
 
 	(void)stat;
@@ -103,8 +103,8 @@ int shell_cd(char **commands, int stat)
 	else
 		check_chdir = chdir(commands[1]);
 	if (check_chdir != -1)
-	{	_setenv("OLDPWD", current_dir, env);
-		_setenv("PWD", getcwd(store_dir, sizeof(store_dir)), env);
+	{	setenv("OLDPWD", current_dir, 1);
+		setenv("PWD", getcwd(store_dir, sizeof(store_dir)), 1);
 		return (0);
 	}
 	return (-1);
