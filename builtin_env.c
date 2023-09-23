@@ -159,7 +159,7 @@ int _unsetenv(char *name, char **env)
  */
 void set_env_var(char *name, char *value, char *new_env_var)
 {
-	strcpy(new_env_var, name);
-	strcat(new_env_var, "=");
-	strcat(new_env_var, value);
+	_strcpy(new_env_var, name);
+	_strcat(new_env_var, "=");
+	_strcat(new_env_var, value);
 }
