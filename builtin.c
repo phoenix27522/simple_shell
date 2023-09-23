@@ -71,15 +71,13 @@ int shell_env(char **commands, int stat)
  */
 int shell_cd(char **commands, int stat)
 {
-	char *dir = NULL, store_dir[MAX_SIZE], *current_dir, **env = environ;
+	char *dir = NULL, store_dir[MAX_SIZE], *current_dir, *error;
 	int check_chdir = 0;
-
 	(void)stat;
 
 	current_dir = getcwd(store_dir, MAX_SIZE);
 	if (!current_dir)
-	{
-		perror("can't cd to");
+	{	perror("can't cd to");
 		exit(127);
 	}
 	if (!commands[1])
@@ -92,8 +90,7 @@ int shell_cd(char **commands, int stat)
 	else if (_strcmp(commands[1], "-") == 0)
 	{	dir = _getenv("OLDPWD");
 		if (!dir)
-		{
-			_puts(current_dir);
+		{	_puts(current_dir);
 			_puts("\n");
 			return (0);
 		}
@@ -103,11 +100,15 @@ int shell_cd(char **commands, int stat)
 	}
 	else
 		check_chdir = chdir(commands[1]);
+	error = str_concat("can't cd to ", commands[1]);
 	if (check_chdir != -1)
-	{	_setenv("OLDPWD", current_dir, env);
-		_setenv("PWD", getcwd(store_dir, sizeof(store_dir)), env);
+	{	setenv("OLDPWD", current_dir, 1);
+		setenv("PWD", dir, 1);
+		free(error);
 		return (0);
 	}
-	return (-1);
+	print_error("./hsh", 1, commands[0], error);
+	free(error);
+	return (0);
 
 }
